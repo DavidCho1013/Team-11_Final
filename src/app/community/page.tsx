@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -66,7 +66,7 @@ interface Comment {
   parentId?: number
 }
 
-export default function CommunityPage() {
+function CommunityContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [activeTab, setActiveTab] = useState<TabType>('board')
@@ -759,8 +759,6 @@ export default function CommunityPage() {
     { id: 'study' as TabType, name: '스터디 그룹 매칭', icon: Users, count: studyGroups.length },
     { id: 'notice' as TabType, name: '공지사항', icon: Bell, count: notices.length }
   ]
-
-
 
   const renderFreeBoard = () => (
     <div className="space-y-4">
@@ -1827,5 +1825,13 @@ export default function CommunityPage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function CommunityPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CommunityContent />
+    </Suspense>
   )
 } 
