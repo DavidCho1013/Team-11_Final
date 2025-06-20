@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
@@ -31,7 +31,7 @@ interface AISettings {
   track: string
 }
 
-export default function AITimetableResultPage() {
+function AITimetableResultContent() {
   // 상태 관리
   const [loading, setLoading] = useState(true)
   const [courses, setCourses] = useState<Course[]>([])
@@ -1835,5 +1835,13 @@ export default function AITimetableResultPage() {
         </DialogContent>
       </Dialog>
     </div>
+  )
+}
+
+export default function AITimetableResultPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AITimetableResultContent />
+    </Suspense>
   )
 } 

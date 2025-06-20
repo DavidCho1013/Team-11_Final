@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -121,7 +121,7 @@ interface TimeSlot {
   color?: string
 }
 
-export default function AITimetableDetailPage() {
+function AITimetableDetailContent() {
   const [timetable, setTimetable] = useState<GeneratedTimetable | null>(null)
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([])
   const [showSaveDialog, setShowSaveDialog] = useState(false)
@@ -437,6 +437,14 @@ export default function AITimetableDetailPage() {
         </Dialog>
       </div>
     </div>
+  )
+}
+
+export default function AITimetableDetailPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AITimetableDetailContent />
+    </Suspense>
   )
 }
  
